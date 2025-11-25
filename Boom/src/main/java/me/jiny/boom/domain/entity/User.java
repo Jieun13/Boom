@@ -1,5 +1,6 @@
 package me.jiny.boom.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,10 +13,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "password"})
 public class User {
 
     @Id
@@ -27,15 +28,19 @@ public class User {
     private String email;
 
     @Column(nullable = false, length = 255)
+    @Setter
     private String password;
 
     @Column(length = 50)
+    @Setter
     private String nickname;
 
     @Column(length = 500)
+    @Setter
     private String profileImageUrl;
 
     @Column(length = 500)
+    @Setter
     private String bio;
 
     @CreationTimestamp

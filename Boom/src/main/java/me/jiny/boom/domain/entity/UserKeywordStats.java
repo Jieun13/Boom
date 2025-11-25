@@ -2,37 +2,57 @@ package me.jiny.boom.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_keyword_stats")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(UserKeywordStatsId.class)
 @Builder
 public class UserKeywordStats {
 
-    @Id
-    @Column(name = "period", length = 6, nullable = false)
-    private String period; // char(6) 형식: YYYYMM
+    @EmbeddedId
+    private UserKeywordStatsId id;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("keywordId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "keyword_id", nullable = false)
     private Keyword keyword;
 
+    @Column(name = "period", length = 6, nullable = false, insertable = false, updatable = false)
+    private String period;
+
     @Column(name = "usage_count", nullable = false)
     @Builder.Default
+    @Setter
     private Integer usageCount = 0;
-}
 
+    // 편한 생성자
+    public UserKeywordStats(String period, User user, Keyword keyword, Integer usageCount) {
+        this.id = new UserKeywordStatsId(period, user.getId(), keyword.getId());
+        this.period = period;
+        this.user = user;
+        this.keyword = keyword;
+        this.usageCount = usageCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserKeywordStats that = (UserKeywordStats) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}

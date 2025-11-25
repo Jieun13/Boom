@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -27,5 +26,17 @@ public class StatisticsResponse {
 
     @Schema(description = "취향 유형 분석 결과")
     private String tasteType;
+
+    @Schema(description = "누적 P 점수 (Productivity) - 100점 만점", example = "75")
+    private Integer pScore;
+
+    @Schema(description = "누적 A 점수 (Activity) - 100점 만점", example = "62")
+    private Integer aScore;
+
+    @Schema(description = "누적 E 점수 (Emotional) - 100점 만점", example = "81")
+    private Integer eScore;
+
+    @Schema(description = "누적 F 점수 (Focus) - 100점 만점", example = "59")
+    private Integer fScore;
 }
 

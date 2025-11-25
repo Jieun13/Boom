@@ -43,4 +43,3 @@ public class CardCreateRequest {
     @Schema(description = "키워드 ID 리스트 (최대 3개)", example = "[1, 2, 3]", required = true)
     private List<Long> keywordIds;
 }
-

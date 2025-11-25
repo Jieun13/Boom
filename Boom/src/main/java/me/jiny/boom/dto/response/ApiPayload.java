@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Data
 @Builder
@@ -21,5 +23,37 @@ public class ApiPayload<T> {
 
     @Schema(description = "응답 데이터")
     private T data;
+
+    public static <T> ApiPayload<T> onSuccess(T data) {
+        return ApiPayload.<T>builder()
+            .success(true)
+            .message("요청이 성공적으로 처리되었습니다")
+            .data(data)
+            .build();
+    }
+
+    public static <T> ApiPayload<T> onSuccess(String message, T data) {
+        return ApiPayload.<T>builder()
+            .success(true)
+            .message(message)
+            .data(data)
+            .build();
+    }
+
+    public static <T> ResponseEntity<ApiPayload<T>> ok(T data) {
+        return ResponseEntity.ok(onSuccess(data));
+    }
+
+    public static <T> ResponseEntity<ApiPayload<T>> ok(String message, T data) {
+        return ResponseEntity.ok(onSuccess(message, data));
+    }
+
+    public static <T> ResponseEntity<ApiPayload<T>> created(T data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(onSuccess("생성이 완료되었습니다", data));
+    }
+
+    public static <T> ResponseEntity<ApiPayload<T>> created(String message, T data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(onSuccess(message, data));
+    }
 }
 

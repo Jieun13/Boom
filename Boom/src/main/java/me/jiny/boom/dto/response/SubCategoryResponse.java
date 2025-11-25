@@ -18,8 +18,5 @@ public class SubCategoryResponse {
 
     @Schema(description = "소분류 이름", example = "K-POP")
     private String name;
-
-    @Schema(description = "소분류 설명", example = "K-POP 음악")
-    private String description;
 }
 

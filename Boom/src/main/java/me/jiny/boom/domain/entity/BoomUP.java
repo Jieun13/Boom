@@ -5,29 +5,43 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "boom_ups")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(BoomUPId.class)
 public class BoomUP {
 
-    @Id
+    @EmbeddedId
+    private BoomUPId id;
+
+    @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Id
+    @MapsId("cardId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_id", nullable = false)
+    @JoinColumn(name = "card_id")
     private Card card;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BoomUP boomUP = (BoomUP) o;
+        return Objects.equals(id, boomUP.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}

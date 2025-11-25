@@ -6,6 +6,7 @@ import me.jiny.boom.domain.entity.Keyword;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface KeywordControllerDocs {
     ApiPayload<List<KeywordResponse>> getAllKeywords();
 
     @Operation(summary = "타입별 키워드 조회", description = "특정 타입의 키워드 목록을 조회합니다. (FEELING, ACTION, TENDENCY)")
-    @Parameter(name = "type", description = "키워드 타입")
-    ApiPayload<List<KeywordResponse>> getKeywordsByType(@Parameter(hidden = true) Keyword.KeywordType type);
+    @Parameter(name = "type", description = "키워드 타입", required = true, example = "FEELING")
+    ApiPayload<List<KeywordResponse>> getKeywordsByType(@PathVariable("type") Keyword.KeywordType type);
 }
 

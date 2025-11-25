@@ -22,8 +22,5 @@ public class KeywordResponse {
 
     @Schema(description = "키워드 타입", example = "FEELING")
     private Keyword.KeywordType type;
-
-    @Schema(description = "키워드 설명", example = "느낌 키워드")
-    private String description;
 }
 
