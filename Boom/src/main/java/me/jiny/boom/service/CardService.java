@@ -44,6 +44,7 @@ public class CardService {
                 .subCategory(subCategory)
                 .name(request.getName())
                 .description(request.getDescription())
+                .imageUrl(request.getImageUrl())
                 .boomLevel(request.getBoomLevel())
                 .build();
 
@@ -95,6 +96,7 @@ public class CardService {
 
         if (request.getName() != null) card.setName(request.getName());
         if (request.getDescription() != null) card.setDescription(request.getDescription());
+        if (request.getImageUrl() != null) card.setImageUrl(request.getImageUrl());
         if (request.getBoomLevel() != null) card.setBoomLevel(request.getBoomLevel());
 
         if (request.getKeywordIds() != null) {

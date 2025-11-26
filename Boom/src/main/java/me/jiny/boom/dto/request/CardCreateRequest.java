@@ -32,6 +32,10 @@ public class CardCreateRequest {
     @Schema(description = "카드 설명", example = "요즘 가장 좋아하는 앨범이에요!")
     private String description;
 
+    @Size(max = 500, message = "이미지 URL은 최대 500자까지 가능합니다")
+    @Schema(description = "이미지 URL", example = "https://example.com/image.jpg")
+    private String imageUrl;
+
     @NotNull(message = "Boom Level은 필수입니다")
     @Min(value = 1, message = "Boom Level은 1 이상이어야 합니다")
     @Max(value = 5, message = "Boom Level은 5 이하여야 합니다")

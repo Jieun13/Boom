@@ -57,6 +57,7 @@ public class Card {
     private Integer boomLevel = 1;
 
     @Column(length = 500)
+    @Setter
     private String imageUrl;
 
     @Column(name = "boomUp_count")
