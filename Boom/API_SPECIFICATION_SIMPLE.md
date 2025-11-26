@@ -1,18 +1,6 @@
-# Boom! API 명세서
+# Boom! API 명세서 (간단 버전)
 
 **기본 URL**: `{API_URL}/api`
-
----
-
-## 목차
-
-- [인증 (Auth)](#인증-auth)
-- [사용자 (User)](#사용자-user)
-- [카드 (Card)](#카드-card)
-- [카테고리 (Category)](#카테고리-category)
-- [키워드 (Keyword)](#키워드-keyword)
-- [수집 (Collection)](#수집-collection)
-- [BoomUP](#boomup)
 
 ---
 
@@ -118,14 +106,6 @@
 Authorization: Bearer {accessToken}
 ```
 
-### 페이지네이션
-
-목록 조회 API는 다음 쿼리 파라미터를 지원합니다:
-
-- `page`: 페이지 번호 (기본값: 0)
-- `size`: 페이지 크기 (기본값: 20)
-- `sort`: 정렬 기준 (예: `createdAt,desc`)
-
 ### HTTP 상태 코드
 
 | 코드 | 설명 |
@@ -136,9 +116,9 @@ Authorization: Bearer {accessToken}
 | 401 | 인증 필요 |
 | 403 | 권한 없음 |
 | 404 | 리소스를 찾을 수 없음 |
-| 409 | 리소스 충돌 |
 | 500 | 서버 오류 |
 
 ---
 
 **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+

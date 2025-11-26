@@ -1,32 +1,49 @@
 package me.jiny.boom.controller;
 
+import lombok.RequiredArgsConstructor;
 import me.jiny.boom.controller.docs.CollectionControllerDocs;
 import me.jiny.boom.dto.response.ApiPayload;
 import me.jiny.boom.dto.response.CardSimpleResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import me.jiny.boom.service.CollectionService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/collections")
+@RequiredArgsConstructor
 public class CollectionController implements CollectionControllerDocs {
+
+    private final CollectionService collectionService;
 
     @Override
     @PostMapping("/cards/{cardId}")
-    public ApiPayload<Void> addCollection(@PathVariable Long cardId) {
-        return null;
+    public ResponseEntity<ApiPayload<Void>> addCollection(
+            Authentication authentication,
+            @PathVariable Long cardId) {
+        Long userId = Long.parseLong(authentication.getName());
+        collectionService.addCollection(cardId, userId);
+        return ApiPayload.ok("카드가 수집함에 추가되었습니다", null);
     }
 
     @Override
     @DeleteMapping("/cards/{cardId}")
-    public ApiPayload<Void> removeCollection(@PathVariable Long cardId) {
-        return null;
+    public ResponseEntity<ApiPayload<Void>> removeCollection(
+            Authentication authentication,
+            @PathVariable Long cardId) {
+        Long userId = Long.parseLong(authentication.getName());
+        collectionService.removeCollection(cardId, userId);
+        return ApiPayload.ok("카드가 수집함에서 제거되었습니다", null);
     }
 
     @Override
     @GetMapping("/me")
-    public ApiPayload<Page<CardSimpleResponse>> getMyCollections(Pageable pageable) {
-        return null;
+    public ResponseEntity<ApiPayload<List<CardSimpleResponse>>> getMyCollections(
+            Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getName());
+        return ApiPayload.ok(collectionService.getMyCollections(userId));
     }
 }
 

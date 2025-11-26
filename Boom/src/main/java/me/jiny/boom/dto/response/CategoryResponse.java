@@ -18,8 +18,4 @@ public class CategoryResponse {
 
     @Schema(description = "카테고리 이름", example = "음악")
     private String name;
-
-    @Schema(description = "카테고리 설명", example = "음악 관련 취향")
-    private String description;
 }
-

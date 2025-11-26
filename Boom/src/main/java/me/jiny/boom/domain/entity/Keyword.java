@@ -2,17 +2,13 @@ package me.jiny.boom.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "keywords")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,20 +26,10 @@ public class Keyword {
     @Column(nullable = false, length = 20)
     private KeywordType type;
 
-    @Column(length = 500)
-    private String description;
-
     @Column(name = "usage_count")
     @Builder.Default
+    @Setter
     private Integer usageCount = 0;
-
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

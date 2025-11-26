@@ -4,9 +4,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -39,14 +39,20 @@ public class SwaggerConfig {
             .in(SecurityScheme.In.HEADER)
             .name("Authorization");
 
-        SecurityRequirement securityRequirement = new SecurityRequirement()
-            .addList("bearerAuth");
-
         return new OpenAPI()
             .info(info)
             .servers(List.of(server))
             .components(new io.swagger.v3.oas.models.Components()
-                .addSecuritySchemes("bearerAuth", bearerAuth))
-            .addSecurityItem(securityRequirement);
+                .addSecuritySchemes("bearerAuth", bearerAuth));
+    }
+
+    @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+            .group("v1")
+            .pathsToMatch("/api/**")
+            .packagesToScan("me.jiny.boom.controller")
+            .packagesToExclude("me.jiny.boom.domain.entity", "me.jiny.boom.domain")
+            .build();
     }
 }

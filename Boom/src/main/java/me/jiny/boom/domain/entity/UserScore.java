@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_scores")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,21 +21,27 @@ public class UserScore {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @Setter
     private User user;
 
     @Column(name = "activity_score")
+    @Setter
     private Integer activityScore;
 
     @Column(name = "productivity_score")
+    @Setter
     private Integer productivityScore;
 
     @Column(name = "emotional_score")
+    @Setter
     private Integer emotionalScore;
 
     @Column(name = "focus_score")
+    @Setter
     private Integer focusScore;
 
     @Column(name = "type_name", length = 100)
+    @Setter
     private String typeName;
 
     @CreationTimestamp
