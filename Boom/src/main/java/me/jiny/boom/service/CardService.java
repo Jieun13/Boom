@@ -168,7 +168,7 @@ public class CardService {
                     // 카드 작성자의 모든 카드 목록 가져오기
                     List<Card> cardOwnerCards = cardRepository.findByUser(card.getUser());
                     
-                    // 카드 작성자의 PAEF 점수 계산
+                    // 카드 작성자의 APEF 점수 계산
                     TasteScore cardOwnerTasteScore = TasteAnalysisUtil.calculateUserTasteScore(cardOwnerCards);
 
                     // 유클리드 거리 기반 유사도 계산

@@ -73,6 +73,7 @@ public class UserService {
         TasteScore tasteScore = TasteAnalysisUtil.calculateUserTasteScore(userCards);
         String tasteType = TasteAnalysisUtil.determineTasteType(tasteScore);
         String tasteTypeName = TasteAnalysisUtil.getTasteTypeName(tasteType);
+        String tasteTypeDescription = TasteAnalysisUtil.getTasteTypeDescription(tasteType);
 
         UserScore userScore = userScoreRepository.findByUser(user)
                 .orElse(UserScore.builder()
@@ -191,9 +192,11 @@ public class UserService {
                 .topCategories(topCategories)
                 .topKeywords(topKeywords)
                 .monthlyStats(monthlyStats)
+                .tasteTypeCode(tasteType)
                 .tasteType(tasteTypeName)
-                .pScore((int) Math.round(tasteScore.p * 10))
+                .tasteTypeDescription(tasteTypeDescription)
                 .aScore((int) Math.round(tasteScore.a * 10))
+                .pScore((int) Math.round(tasteScore.p * 10))
                 .eScore((int) Math.round(tasteScore.e * 10))
                 .fScore((int) Math.round(tasteScore.f * 10))
                 .build();
@@ -214,7 +217,7 @@ public class UserService {
         List<Card> currentUserCards = cardRepository.findByUser(currentUser);
         List<Card> targetUserCards = cardRepository.findByUser(targetUser);
 
-        // PAEF 점수 계산
+        // APEF 점수 계산
         TasteScore currentScore = TasteAnalysisUtil.calculateUserTasteScore(currentUserCards);
         TasteScore targetScore = TasteAnalysisUtil.calculateUserTasteScore(targetUserCards);
 
@@ -248,11 +251,11 @@ public class UserService {
     }
 
     private String getSimilarityDescription(double similarityScore) {
-        if (similarityScore >= 0.9) {
+        if (similarityScore >= 0.94) {
             return "거의 동일한 취향을 가지고 있습니다";
         } else if (similarityScore >= 0.8) {
             return "꽤나 유사한 취향을 가지고 있습니다";
-        } else if (similarityScore >= 0.6) {
+        } else if (similarityScore >= 0.65) {
             return "비슷한 취향을 가지고 있습니다";
         } else if (similarityScore >= 0.4) {
             return "일부 유사한 취향을 가지고 있습니다";
