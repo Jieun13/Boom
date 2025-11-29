@@ -15,9 +15,7 @@ const Navbar = ({ setActivePage }) => {
     return (
         <nav className="fixed bottom-0 w-full bg-[#0D0C1D]/80 backdrop-blur-lg border-t border-white/10 z-50 md:top-0 md:bottom-auto md:border-b md:border-t-0 px-6 py-4">
             <div className="max-w-4xl mx-auto flex justify-between items-center">
-                <div className="hidden md:block text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0CFED8] to-[#E4007C] cursor-pointer" onClick={() => setActivePage('home')}>
-                    Boom!
-                </div>
+                <img src="/logo.png" alt="Boom!" className="hidden md:block h-12 cursor-pointer" onClick={() => setActivePage('home')} />
 
             <div className="flex justify-between w-full md:w-auto gap-8 text-[#A6A6A6]">
                 <button onClick={() => setActivePage('create')} className="relative top-[-20px] md:top-0">
