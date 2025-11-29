@@ -554,8 +554,10 @@ const CreateBoomModal = ({ onClose, editCard = null, onUpdate }) => {
                    </span>
                                     <span className="text-2xl text-[#A6A6A6]"> / 5</span>
                                     <p className="text-[#A6A6A6] mt-4 text-sm">
-                                        {formData.level === 1 && "이제 막 관심을 가지기 시작했어요"}
+                                        {formData.level === 1 && "요새 좀 흥미로워요"}
+                                        {formData.level === 2 && "좀 좋아하는 것 같아요"}
                                         {formData.level === 3 && "꽤 자주 즐기고 좋아해요"}
+                                        {formData.level === 4 && "완전 취향이에요!"}
                                         {formData.level === 5 && "나를 설명하는 정체성 그 자체!"}
                                     </p>
                                 </div>

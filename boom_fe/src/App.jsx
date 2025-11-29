@@ -24,6 +24,12 @@ function AppContent() {
             } else {
                 setShowLogin(true);
             }
+        } else if (page === 'profile') {
+            if (user) {
+                setActivePage(page);
+            } else {
+                setShowLogin(true);
+            }
         } else {
             setActivePage(page);
         }
@@ -41,7 +47,33 @@ function AppContent() {
         return (
             <div className="min-h-screen bg-[#0D0C1D] font-sans selection:bg-[#E4007C] selection:text-white relative">
                 <BackgroundGlow />
-                <Login onClose={() => setShowLogin(false)} />
+
+                {/* 모바일 헤더 */}
+                <header className="md:hidden fixed top-0 w-full p-4 z-50 flex justify-between items-center bg-[#0D0C1D]/50 backdrop-blur-sm">
+                    <img src="/logo.png" alt="Boom!" className="h-8 cursor-pointer" onClick={() => setActivePage('home')} />
+                    <Menu className="text-white" />
+                </header>
+
+                {/* 메인 컨텐츠 영역 */}
+                <main className="pt-20 pb-28 px-4 max-w-4xl mx-auto relative z-10 min-h-screen">
+                    {activePage === 'home' && (
+                        <Home 
+                            onUserClick={(userId) => { setViewingUserId(userId); setActivePage('userProfile'); }} 
+                            onCreateClick={() => handleNav('create')}
+                        />
+                    )}
+                    {activePage === 'userProfile' && viewingUserId && (
+                        <UserProfile 
+                            userId={viewingUserId} 
+                            onBack={() => { setViewingUserId(null); setActivePage('home'); }}
+                            onUserClick={(userId) => { setViewingUserId(userId); }}
+                        />
+                    )}
+                </main>
+
+                {/* 로그인 모달 및 네비게이션 */}
+                {showLogin && <Login onClose={() => { setShowLogin(false); setActivePage('home'); }} />}
+                <Navbar setActivePage={handleNav} />
             </div>
         );
     }
@@ -52,7 +84,7 @@ function AppContent() {
 
             {/* 모바일 헤더 */}
             <header className="md:hidden fixed top-0 w-full p-4 z-50 flex justify-between items-center bg-[#0D0C1D]/50 backdrop-blur-sm">
-                <div className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#0CFED8] to-[#E4007C]">Boom!</div>
+                <img src="/logo.png" alt="Boom!" className="h-8 cursor-pointer" onClick={() => setActivePage('home')} />
                 <Menu className="text-white" />
             </header>
 
@@ -76,7 +108,7 @@ function AppContent() {
 
             {/* 모달 및 네비게이션 */}
             {showCreateModal && <CreateBoomModal onClose={() => setShowCreateModal(false)} />}
-            {showLogin && <Login onClose={() => setShowLogin(false)} />}
+            {showLogin && <Login onClose={() => { setShowLogin(false); setActivePage('home'); }} />}
             <Navbar setActivePage={handleNav} />
 
         </div>

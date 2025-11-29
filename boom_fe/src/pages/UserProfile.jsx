@@ -10,6 +10,7 @@ const UserProfile = ({ userId, onBack, onUserClick }) => {
     const { user: currentUser } = useAuth();
     const [profile, setProfile] = useState(null);
     const [statistics, setStatistics] = useState(null);
+    const [similarity, setSimilarity] = useState(null);
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,17 +24,28 @@ const UserProfile = ({ userId, onBack, onUserClick }) => {
         try {
             setLoading(true);
             
-            const [profileRes, statsRes, cardsRes] = await Promise.all([
+            const promises = [
                 userService.getUserProfile(userId),
                 userService.getStatistics(userId),
                 cardService.getUserCards(userId),
-            ]);
+            ];
+
+            // 현재 사용자가 로그인한 경우에만 취향 유사도 조회
+            if (currentUser && currentUser.id !== userId) {
+                promises.push(userService.getSimilarity(userId));
+            }
+
+            const results = await Promise.all(promises);
+            const [profileRes, statsRes, cardsRes, similarityRes] = results;
 
             if (profileRes?.success) {
                 setProfile(profileRes.data);
             }
             if (statsRes?.success) {
                 setStatistics(statsRes.data);
+            }
+            if (similarityRes?.success) {
+                setSimilarity(similarityRes.data);
             }
             if (cardsRes?.success) {
                 const cardsList = cardsRes.data || [];
@@ -113,9 +125,26 @@ const UserProfile = ({ userId, onBack, onUserClick }) => {
                         <div className="bg-gradient-to-br from-[#9D4EDC]/20 to-[#E4007C]/20 p-6 rounded-2xl border-2 border-[#9D4EDC]/30 mb-6 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#9D4EDC]/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
                             <div className="relative z-10">
-                                <div className="text-[#A6A6A6] text-xs mb-2 font-medium">상대방의 취향 유형</div>
-                                <div className="text-[#9D4EDC] font-bold text-2xl mb-2">{statistics.tasteType}</div>
-                                <div className="text-[#F4F4F3] text-sm leading-relaxed mb-4">{statistics.tasteTypeDescription}</div>
+                                <div className="text-[#A6A6A6] text-xs font-medium mb-2">상대방의 취향 유형</div>
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="text-[#9D4EDC] font-bold text-2xl">{statistics.tasteType}</div>
+                                    {similarity && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[#0CFED8] text-xl font-medium">취향 유사도</span>
+                                            <span className="text-[#0CFED8] font-bold text-lg">
+                                                {Math.round(similarity.similarityScore * 100)}%
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="text-[#F4F4F3] text-sm leading-relaxed flex-1">{statistics.tasteTypeDescription}</div>
+                                    {similarity && (
+                                        <div className="text-[#0CFED8] text-sm text-right flex-shrink-0">
+                                            {similarity.description}
+                                        </div>
+                                    )}
+                                </div>
                                 
                                 {/* PAEF 점수 그래프 */}
                                 {(statistics.ascore != null || statistics.pscore != null || statistics.escore != null || statistics.fscore != null) && (
