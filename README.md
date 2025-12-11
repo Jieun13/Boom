@@ -19,7 +19,7 @@
 이 프로젝트는 데이터베이스설계(CSC4020-01) 과목의 프로젝트입니다. 
 
 - **Backend**: Java 17, Spring Boot 3.5.7, MySQL  
-- **Frontend**: React, Tailwind CSS  
+- **Frontend**: React, Javascript, Tailwind CSS  
 
 <br>
 
